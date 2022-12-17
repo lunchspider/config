@@ -38,16 +38,22 @@ Plug 'junegunn/fzf.vim'
 
 " Semantic language support
 Plug 'neovim/nvim-lspconfig'
-Plug 'nvim-lua/lsp_extensions.nvim'
-Plug 'hrsh7th/cmp-nvim-lsp', {'branch': 'main'}
-Plug 'hrsh7th/cmp-buffer', {'branch': 'main'}
-Plug 'hrsh7th/cmp-path', {'branch': 'main'}
-Plug 'hrsh7th/nvim-cmp', {'branch': 'main'}
-Plug 'ray-x/lsp_signature.nvim'
+Plug 'williamboman/mason.nvim'
+Plug 'williamboman/mason-lspconfig.nvim'
 
-" Only because nvim-cmp _requires_ snippets
+" Autocompletion
+Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
 Plug 'saadparwaiz1/cmp_luasnip'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-nvim-lua'
+
+"  Snippets
 Plug 'L3MON4D3/LuaSnip'
+Plug 'rafamadriz/friendly-snippets'
+
+Plug 'VonHeikemen/lsp-zero.nvim'
 
 " Syntactic language support
 Plug 'cespare/vim-toml', {'branch': 'main'}
@@ -102,60 +108,29 @@ call matchadd('ColorColumn', '\%81v',100)
 " LSP configuration
 lua << END
 -- setup tree
+require("mason").setup()
 require('nvim-tree').setup()
 
-local cmp = require'cmp'
-require("mason").setup()
 
-local lspconfig = require'lspconfig'
-local luasnip = require'luasnip'
-cmp.setup({
-  snippet = {
-    -- REQUIRED by nvim-cmp. get rid of it once we can
-    expand = function(args)
-      vim.fn["vsnip#anonymous"](args.body)
-    end,
-  },
-   mapping = cmp.mapping.preset.insert({
-       ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-       ['<C-f>'] = cmp.mapping.scroll_docs(4),
-       ['<C-Space>'] = cmp.mapping.complete(),
-       ['<CR>'] = cmp.mapping.confirm {
-         behavior = cmp.ConfirmBehavior.Replace,
-         select = true,
-       },
-       ['<Tab>'] = cmp.mapping(function(fallback)
-         if cmp.visible() then
-           cmp.select_next_item()
-         elseif luasnip.expand_or_jumpable() then
-           luasnip.expand_or_jump()
-         else
-           fallback()
-         end
-       end, { 'i', 's' }),
-       ['<S-Tab>'] = cmp.mapping(function(fallback)
-         if cmp.visible() then
-           cmp.select_prev_item()
-         elseif luasnip.jumpable(-1) then
-           luasnip.jump(-1)
-         else
-           fallback()
-         end
-       end, { 'i', 's' }),
-     }),
-     sources = {
-       { name = 'nvim_lsp' },
-       { name = 'luasnip' },
-     },
+local cmp = require('cmp') 
+local lsp = require('lsp-zero')
+lsp.preset('recommended')
+
+lsp.ensure_installed({
+  'tsserver',
+  'eslint',
+  'sumneko_lua',
+  'rust_analyzer',
 })
 
+local lspconfig = require('lspconfig')
+local luasnip = require('luasnip')
 -- Enable completing paths in :
 cmp.setup.cmdline(':', {
   sources = cmp.config.sources({
     { name = 'path' }
   })
 })
-
 -- Setup lspconfig.
 local on_attach = function(client, bufnr)
  -- Enable completion triggered by <c-x><c-o>
@@ -213,10 +188,12 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     update_in_insert = true,
   }
 )
+
+lsp.setup()
 END
 
 " Enable type inlay hints
-autocmd BufEnter,BufWinEnter,TabEnter *.rs lua require'lsp_extensions'.inlay_hints{ prefix = '', highlight = "Comment", enabled = {"TypeHint", "ChainingHint", "ParameterHint"}}
+"autocmd BufEnter,BufWinEnter,TabEnter *.rs lua require'lsp_extensions'.inlay_hints{ prefix = '', highlight = "Comment", enabled = {"TypeHint", "ChainingHint", "ParameterHint"}}
 
 " Plugin settings
 let g:secure_modelines_allowed_items = [
@@ -292,7 +269,6 @@ let g:go_bin_path = expand("~/dev/go/bin")
 
 " # Editor settings
 filetype plugin indent on
-set autoindent
 set timeoutlen=300 " http://stackoverflow.com/questions/2158516/delay-before-o-opens-a-new-line
 set encoding=utf-8
 set scrolloff=2
@@ -307,7 +283,12 @@ let g:vim_markdown_frontmatter = 1
 set printfont=:h10
 set printencoding=utf-8
 set printoptions=paper:letter
-" Always draw sign column. Prevent buffer moving when adding/deleting sign.
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set expandtab
+set smartindent
+"Always draw sign column. Prevent buffer moving when adding/deleting sign.
 set signcolumn=yes
 
 " Settings needed for .lvimrc
@@ -396,11 +377,6 @@ set listchars=nbsp:¬,extends:»,precedes:«,trail:•
 "vnoremap <C-h> :nohlsearch<cr>
 "nnoremap <C-h> :nohlsearch<cr>
 
-" Suspend with Ctrl+f
-inoremap <C-f> :sus<cr>
-vnoremap <C-f> :sus<cr>
-nnoremap <C-f> :sus<cr>
-
 " Jump to start and end of line using the home row keys
 map H ^
 map L $
@@ -454,10 +430,6 @@ nnoremap <leader>q g<c-g>
 " Keymap for replacing up to next _ or -
 noremap <leader>m ct_
 
-" I can type :help on my own, thanks.
-map <F1> <Esc>
-imap <F1> <Esc>
-
 
 " =============================================================================
 " # Autocommands
@@ -497,5 +469,5 @@ autocmd Filetype html,xml,xsl,php source ~/.config/nvim/scripts/closetag.vim
 
 " nvim
 if has('nvim')
-	runtime! plugin/python_setup.vim
+ runtime! plugin/python_setup.vim
 endif

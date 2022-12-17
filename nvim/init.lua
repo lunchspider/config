@@ -1,14 +1,14 @@
 -- fish doesn't always work
-vim.g["shell"]="/bin/bash"
+vim.g["shell"] = "/bin/bash"
 -- =============================================================================
 -- # installing packages
 -- =============================================================================
 -- Load packer
 local ensure_packer = function()
     local fn = vim.fn
-    local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+    local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
     if fn.empty(fn.glob(install_path)) > 0 then
-        fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+        fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path })
         vim.cmd [[packadd packer.nvim]]
         return true
     end
@@ -26,6 +26,7 @@ require('packer').startup(function(use)
     use 'justinmk/vim-sneak'
     use 'morhetz/gruvbox'
     use 'christoomey/vim-tmux-navigator'
+    use 'mbbill/undotree'
 
     -- Git integration
     use 'tpope/vim-fugitive'
@@ -48,7 +49,7 @@ require('packer').startup(function(use)
     use 'neovim/nvim-lspconfig'
     use 'williamboman/mason.nvim'
     use 'williamboman/mason-lspconfig.nvim'
-    use {'nvim-treesitter/nvim-treesitter', run = ":TSUpdate"}
+    use { 'nvim-treesitter/nvim-treesitter', run = ":TSUpdate" }
 
     -- Autocompletion
     use 'hrsh7th/nvim-cmp'
@@ -74,15 +75,15 @@ require('packer').startup(function(use)
     use 'dag/vim-fish'
     use 'godlygeek/tabular'
     use 'plasticboy/vim-markdown'
-    if packer_bootstrap then
-        require('packer').sync()
-    end
 end)
+if packer_bootstrap then
+    require('packer').sync()
+end
 require("mason").setup()
 require('nvim-tree').setup()
+require("nvim-autopairs").setup {}
 
 
-local cmp = require('cmp')
 local lsp = require('lsp-zero')
 lsp.preset('recommended')
 
@@ -92,25 +93,23 @@ lsp.ensure_installed({
     'sumneko_lua',
     'rust_analyzer',
 })
-require("nvim-autopairs").setup {}
 
-
-local lspconfig = require('lspconfig')
--- Enable completing paths in :
-cmp.setup.cmdline(':', {
-    sources = cmp.config.sources({
-        { name = 'path' }
-    })
+local cmp_mapping = lsp.defaults.cmp_mapping
+-- getting the ghost text on screen!
+lsp.setup_nvim_cmp({
+    mapping = cmp_mapping,
+    experimental = {
+        ghost_text = true,
+    },
 })
 
 -- Setup lspconfig.
-local on_attach = function(client, bufnr)
+lsp.on_attach(function(client, bufnr)
     -- Enable completion triggered by <c-x><c-o>
     vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-
     -- Mappings.
     -- See `:help vim.lsp.*` for documentation on any of the below functions
-    local bufopts = { noremap=true, silent=true, buffer=bufnr }
+    local bufopts = { noremap = true, silent = true, buffer = bufnr }
     vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
@@ -126,47 +125,24 @@ local on_attach = function(client, bufnr)
     vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
     vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
     vim.keymap.set('n', '<space>f', function() vim.lsp.buf.format { async = true } end, bufopts)
-end
+end)
 
-local capabilities = require('cmp_nvim_lsp').default_capabilities()
-lspconfig.sumneko_lua.setup {
+-- Fix Undefined global 'vim'
+lsp.configure('sumneko_lua', {
     settings = {
         Lua = {
             diagnostics = {
-                -- Get the language server to recognize the `vim` global
-                globals = {'vim'},
-            },
-        },
-    },
-}
-lspconfig.rust_analyzer.setup {
-    on_attach = on_attach,
-    flags = {
-        debounce_text_changes = 150,
-    },
-    settings = {
-        ["rust-analyzer"] = {
-            cargo = {
-                allFeatures = true,
-            },
-            completion = {
-                postfix = {
-                    enable = false,
-                },
-            },
-        },
-    },
-    capabilities = capabilities,
-}
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-vim.lsp.diagnostic.on_publish_diagnostics, {
-    virtual_text = true,
-    signs = true,
-    update_in_insert = true,
-}
-)
-
+                globals = { 'vim' }
+            }
+        }
+    }
+})
 lsp.setup()
+
+vim.diagnostic.config({
+    virtual_text = true
+})
+
 -- becauing doing vim.cmd again and again is boring
-local vimrc = vim.fn.stdpath("config") .. "/vimrc.vim"
+local vimrc = vim.fn.stdpath("config") .. "/setup.vim"
 vim.cmd.source(vimrc)

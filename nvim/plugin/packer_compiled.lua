@@ -194,6 +194,11 @@ _G.packer_plugins = {
     path = "/home/aman/.local/share/nvim/site/pack/packer/start/tabular",
     url = "https://github.com/godlygeek/tabular"
   },
+  undotree = {
+    loaded = true,
+    path = "/home/aman/.local/share/nvim/site/pack/packer/start/undotree",
+    url = "https://github.com/mbbill/undotree"
+  },
   ["vim-airline"] = {
     loaded = true,
     path = "/home/aman/.local/share/nvim/site/pack/packer/start/vim-airline",

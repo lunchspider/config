@@ -72,7 +72,8 @@ let g:latex_fold_envs = 0
 let g:latex_fold_sections = []
 
 " Open hotkeys
-map <C-p> :Files<CR>
+map <C-p> :GFiles<CR>
+map <C-f> :Files<CR>
 nmap <leader>; :Buffers<CR>
 
 " Quick-save
@@ -96,7 +97,7 @@ set completeopt=menuone,noinsert,noselect
 " Better display for messages
 set cmdheight=2
 " You will have bad experience for diagnostic messages when it's default 4000.
-set updatetime=300
+set updatetime=50
 
 " Golang
 let g:go_play_open_browser = 0

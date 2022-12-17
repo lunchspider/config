@@ -123,8 +123,10 @@ set printoptions=paper:letter
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
+set smarttab
 set expandtab
 set smartindent
+set autoindent
 "Always draw sign column. Prevent buffer moving when adding/deleting sign.
 set signcolumn=yes
 
@@ -144,12 +146,6 @@ set undofile
 set wildmenu
 set wildmode=list:longest
 set wildignore=.hg,.svn,*~,*.png,*.jpg,*.gif,*.settings,Thumbs.db,*.min.js,*.swp,publish/*,intermediate/*,*.o,*.hi,Zend,vendor
-
-" Use wide tabs
-set shiftwidth=8
-set softtabstop=8
-set tabstop=8
-set noexpandtab
 
 " Wrapping options
 set formatoptions=tc " wrap text and comments using textwidth

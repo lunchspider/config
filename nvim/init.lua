@@ -4,16 +4,28 @@ vim.g["shell"]="/bin/bash"
 -- # installing packages
 -- =============================================================================
 -- Load packer
-vim.cmd [[packadd packer.nvim]]
+local ensure_packer = function()
+    local fn = vim.fn
+    local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+    if fn.empty(fn.glob(install_path)) > 0 then
+        fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+        vim.cmd [[packadd packer.nvim]]
+        return true
+    end
+    return false
+end
+
+local packer_bootstrap = ensure_packer()
+
 require('packer').startup(function(use)
     -- Load useins
     --VIM enhancements
+    use 'wbthomason/packer.nvim'
     use 'ciaranm/securemodelines'
     use 'editorconfig/editorconfig-vim'
     use 'justinmk/vim-sneak'
     use 'morhetz/gruvbox'
     use 'christoomey/vim-tmux-navigator'
-    use 'williamboman/mason.nvim'
 
     -- Git integration
     use 'tpope/vim-fugitive'
@@ -36,6 +48,7 @@ require('packer').startup(function(use)
     use 'neovim/nvim-lspconfig'
     use 'williamboman/mason.nvim'
     use 'williamboman/mason-lspconfig.nvim'
+    use {'nvim-treesitter/nvim-treesitter', run = ":TSUpdate"}
 
     -- Autocompletion
     use 'hrsh7th/nvim-cmp'
@@ -61,6 +74,9 @@ require('packer').startup(function(use)
     use 'dag/vim-fish'
     use 'godlygeek/tabular'
     use 'plasticboy/vim-markdown'
+    if packer_bootstrap then
+        require('packer').sync()
+    end
 end)
 require("mason").setup()
 require('nvim-tree').setup()

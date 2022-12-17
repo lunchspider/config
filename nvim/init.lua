@@ -66,7 +66,7 @@ require("mason").setup()
 require('nvim-tree').setup()
 
 
-local cmp = require('cmp') 
+local cmp = require('cmp')
 local lsp = require('lsp-zero')
 lsp.preset('recommended')
 
@@ -113,6 +113,16 @@ local on_attach = function(client, bufnr)
 end
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
+lspconfig.sumneko_lua.setup {
+    settings = {
+        Lua = {
+            diagnostics = {
+                -- Get the language server to recognize the `vim` global
+                globals = {'vim'},
+            },
+        },
+    },
+}
 lspconfig.rust_analyzer.setup {
     on_attach = on_attach,
     flags = {
@@ -140,7 +150,7 @@ vim.lsp.diagnostic.on_publish_diagnostics, {
 }
 )
 
-lsp.setup() 
+lsp.setup()
 -- becauing doing vim.cmd again and again is boring
-local vimrc = vim.fn.stdpath("config") .. "/vimrc.vim" 
-vim.cmd.source(vimrc) 
+local vimrc = vim.fn.stdpath("config") .. "/vimrc.vim"
+vim.cmd.source(vimrc)

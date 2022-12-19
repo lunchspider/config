@@ -91,7 +91,7 @@ require('indent_blankline').setup {
 require("mason").setup()
 require('nvim-tree').setup()
 require("nvim-autopairs").setup {}
-require("fidget").setup{}
+require("fidget").setup {}
 
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
@@ -190,8 +190,7 @@ require('mason-lspconfig').setup {
 }
 
 -- nvim-cmp supports additional completion capabilities
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 local lsp_flags = { debounce_text_changes = 50 };
 
@@ -219,13 +218,13 @@ require('lspconfig').sumneko_lua.setup {
 }
 
 
-local cmp = require 'cmp'
-local luasnip = require 'luasnip'
+local cmp = require('cmp')
+local luasnip = require('luasnip')
 
 cmp.setup {
     snippet = {
         expand = function(args)
-            luasnip.lsp_expand(args.body)
+            vim.fn["vsnip#anonymous"](args.body)
         end,
     },
     mapping = cmp.mapping.preset.insert {
@@ -260,6 +259,22 @@ cmp.setup {
         { name = 'luasnip' },
     },
 }
+
+cmp.setup.cmdline(':', {
+    sources = cmp.config.sources({
+        { name = 'path' },
+        { name = "cmdline" }
+    })
+})
+
+
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+    vim.lsp.diagnostic.on_publish_diagnostics, {
+    virtual_text = true,
+    signs = true,
+    update_in_insert = true,
+}
+)
 
 vim.diagnostic.config({
     virtual_text = true

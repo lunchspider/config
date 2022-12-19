@@ -143,10 +143,10 @@ set splitbelow
 set undodir=~/.vimdid
 set undofile
 
-" Decent wildmenu
+" Decent wildmenu 
 set wildmenu
-set wildmode=list:longest
-set wildignore=.hg,.svn,*~,*.png,*.jpg,*.gif,*.settings,Thumbs.db,*.min.js,*.swp,publish/*,intermediate/*,*.o,*.hi,Zend,vendor
+"set wildmode=list:longest
+"set wildignore=.hg,.svn,*~,*.png,*.jpg,*.gif,*.settings,Thumbs.db,*.min.js,*.swp,publish/*,intermediate/*,*.o,*.hi,Zend,vendor
 
 " Wrapping options
 set formatoptions=tc " wrap text and comments using textwidth
@@ -251,6 +251,9 @@ nnoremap <right> :bn<CR>
 " Move by line
 nnoremap j gj
 nnoremap k gk
+
+" Map ctrl-c to esc
+inoremap <C-c> <ESC>
 
 " <leader><leader> toggles between buffers
 nnoremap <leader><leader> <c-^>

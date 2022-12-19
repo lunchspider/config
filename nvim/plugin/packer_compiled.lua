@@ -129,6 +129,11 @@ _G.packer_plugins = {
     path = "/home/aman/.local/share/nvim/site/pack/packer/start/fzf.vim",
     url = "https://github.com/junegunn/fzf.vim"
   },
+  ["gitsigns.nvim"] = {
+    loaded = true,
+    path = "/home/aman/.local/share/nvim/site/pack/packer/start/gitsigns.nvim",
+    url = "https://github.com/lewis6991/gitsigns.nvim"
+  },
   gruvbox = {
     loaded = true,
     path = "/home/aman/.local/share/nvim/site/pack/packer/start/gruvbox",

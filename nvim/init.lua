@@ -28,6 +28,8 @@ require('packer').startup(function(use)
     use 'christoomey/vim-tmux-navigator'
     use 'mbbill/undotree'
     use 'lukas-reineke/indent-blankline.nvim'
+    use 'lewis6991/gitsigns.nvim'
+    use 'junegunn/gv.vim'
 
     -- Git integration
     use 'tpope/vim-fugitive'
@@ -279,6 +281,17 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 vim.diagnostic.config({
     virtual_text = true
 })
+
+-- Gitsigns (git icons)
+require('gitsigns').setup {
+  signs = {
+    add = { text = '+' },
+    change = { text = '~' },
+    delete = { text = '_' },
+    topdelete = { text = '‾' },
+    changedelete = { text = '~' },
+  },
+}
 
 -- becauing doing vim.cmd again and again is boring
 local vimrc = vim.fn.stdpath("config") .. "/setup.vim"

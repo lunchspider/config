@@ -69,8 +69,6 @@ require('packer').startup(function(use)
     use 'L3MON4D3/LuaSnip'
     use 'rafamadriz/friendly-snippets'
 
-    use 'VonHeikemen/lsp-zero.nvim'
-
     -- Syntactic language support
     use 'cespare/vim-toml'
     use 'stephpy/vim-yaml'
@@ -284,13 +282,13 @@ vim.diagnostic.config({
 
 -- Gitsigns (git icons)
 require('gitsigns').setup {
-  signs = {
-    add = { text = '+' },
-    change = { text = '~' },
-    delete = { text = '_' },
-    topdelete = { text = '‾' },
-    changedelete = { text = '~' },
-  },
+    signs = {
+        add = { text = '+' },
+        change = { text = '~' },
+        delete = { text = '_' },
+        topdelete = { text = '‾' },
+        changedelete = { text = '~' },
+    },
 }
 
 -- becauing doing vim.cmd again and again is boring

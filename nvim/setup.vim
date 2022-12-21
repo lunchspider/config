@@ -222,7 +222,7 @@ noremap <leader>p :read !xsel --clipboard --output<cr>
 noremap <leader>c :w !xsel -ib<cr><cr>
 
 " <leader>s for Rg search
-noremap <leader>s :Rg
+noremap <leader>s :Rg <cr>
 "let g:fzf_layout = { 'down': '~20%' }
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
@@ -240,9 +240,6 @@ endfunction
 "  \ call fzf#vim#files(<q-args>, {'source': s:list_cmd(),
 "  \                               'options': '--tiebreak=index'}, <bang>0)
 "
-
-" Open new file adjacent to current file
-nnoremap <leader>o :e <C-R>=expand("%:p:h") . "/" <CR>
 
 " Left and right can switch buffers
 nnoremap <left> :bp<CR>
@@ -296,8 +293,3 @@ autocmd BufRead *.xlsx.axlsx set filetype=ruby
 " =============================================================================
 " # Footer
 " =============================================================================
-
-" nvim
-if has('nvim')
- runtime! plugin/python_setup.vim
-endif

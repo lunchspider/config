@@ -264,6 +264,9 @@ nnoremap <leader>q g<c-g>
 " Keymap for replacing up to next _ or -
 noremap <leader>m ct_
 
+" get telescope diagnostics
+noremap <leader>df <cmd>:Telescope diagnostics<cr>
+
 
 " =============================================================================
 " # Autocommands

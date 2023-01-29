@@ -149,11 +149,6 @@ _G.packer_plugins = {
     path = "/home/aman/.local/share/nvim/site/pack/packer/start/indent-blankline.nvim",
     url = "https://github.com/lukas-reineke/indent-blankline.nvim"
   },
-  ["lsp-zero.nvim"] = {
-    loaded = true,
-    path = "/home/aman/.local/share/nvim/site/pack/packer/start/lsp-zero.nvim",
-    url = "https://github.com/VonHeikemen/lsp-zero.nvim"
-  },
   ["mason-lspconfig.nvim"] = {
     loaded = true,
     path = "/home/aman/.local/share/nvim/site/pack/packer/start/mason-lspconfig.nvim",
@@ -199,6 +194,11 @@ _G.packer_plugins = {
     path = "/home/aman/.local/share/nvim/site/pack/packer/start/packer.nvim",
     url = "https://github.com/wbthomason/packer.nvim"
   },
+  ["plenary.nvim"] = {
+    loaded = true,
+    path = "/home/aman/.local/share/nvim/site/pack/packer/start/plenary.nvim",
+    url = "https://github.com/nvim-lua/plenary.nvim"
+  },
   ["rust.vim"] = {
     loaded = true,
     path = "/home/aman/.local/share/nvim/site/pack/packer/start/rust.vim",
@@ -213,6 +213,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/aman/.local/share/nvim/site/pack/packer/start/tabular",
     url = "https://github.com/godlygeek/tabular"
+  },
+  ["telescope.nvim"] = {
+    loaded = true,
+    path = "/home/aman/.local/share/nvim/site/pack/packer/start/telescope.nvim",
+    url = "https://github.com/nvim-telescope/telescope.nvim"
   },
   undotree = {
     loaded = true,
@@ -253,6 +258,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/aman/.local/share/nvim/site/pack/packer/start/vim-matchup",
     url = "https://github.com/andymass/vim-matchup"
+  },
+  ["vim-prettier"] = {
+    loaded = true,
+    path = "/home/aman/.local/share/nvim/site/pack/packer/start/vim-prettier",
+    url = "https://github.com/prettier/vim-prettier"
   },
   ["vim-rooter"] = {
     loaded = true,

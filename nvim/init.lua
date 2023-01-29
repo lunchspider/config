@@ -30,6 +30,11 @@ require('packer').startup(function(use)
     use 'lukas-reineke/indent-blankline.nvim'
     use 'lewis6991/gitsigns.nvim'
     use 'junegunn/gv.vim'
+    use {
+        'nvim-telescope/telescope.nvim', tag = '0.1.1',
+        -- or                            , branch = '0.1.x',
+        requires = { { 'nvim-lua/plenary.nvim' } }
+    }
 
     -- Git integration
     use 'tpope/vim-fugitive'
@@ -78,6 +83,7 @@ require('packer').startup(function(use)
     use 'dag/vim-fish'
     use 'godlygeek/tabular'
     use 'plasticboy/vim-markdown'
+    use { 'prettier/vim-prettier', run = "yarn install --forzen-lockfile production" }
 end)
 if packer_bootstrap then
     require('packer').sync()
@@ -97,7 +103,7 @@ require("fidget").setup {}
 -- See `:help nvim-treesitter`
 require('nvim-treesitter.configs').setup {
     -- Add languages to be installed here that you want installed for treesitter
-    ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'typescript', 'help' },
+    ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'typescript', 'help', 'php' },
 
     highlight = { enable = true },
     indent = { enable = true },
@@ -182,7 +188,7 @@ end
 
 -- Enable the following language servers
 -- Feel free to add/remove any LSPs that you want here. They will automatically be installed
-local servers = { 'clangd', 'rust_analyzer', 'pyright', 'tsserver', 'sumneko_lua' }
+local servers = { 'clangd', 'rust_analyzer', 'pyright', 'tsserver', 'sumneko_lua', 'phpactor' }
 
 -- Ensure the servers above are installed
 require('mason-lspconfig').setup {
@@ -224,7 +230,7 @@ local luasnip = require('luasnip')
 cmp.setup {
     snippet = {
         expand = function(args)
-            vim.fn["vsnip#anonymous"](args.body)
+            luasnip.lsp_expand(args.body)
         end,
     },
     mapping = cmp.mapping.preset.insert {

@@ -30,6 +30,9 @@ require('packer').startup(function(use)
     use 'lukas-reineke/indent-blankline.nvim'
     use 'lewis6991/gitsigns.nvim'
     use 'junegunn/gv.vim'
+    -- for translations
+    use 'voldikss/vim-translator'
+
     use {
         'nvim-telescope/telescope.nvim', tag = '0.1.1',
         -- or                            , branch = '0.1.x',
@@ -84,6 +87,8 @@ require('packer').startup(function(use)
     use 'godlygeek/tabular'
     use 'plasticboy/vim-markdown'
     use { 'prettier/vim-prettier', run = "yarn install --forzen-lockfile production" }
+    -- flutter development
+    use { 'akinsho/flutter-tools.nvim', requires = 'nvim-lua/plenary.nvim' }
 end)
 if packer_bootstrap then
     require('packer').sync()
@@ -103,7 +108,7 @@ require("fidget").setup {}
 -- See `:help nvim-treesitter`
 require('nvim-treesitter.configs').setup {
     -- Add languages to be installed here that you want installed for treesitter
-    ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'typescript', 'help', 'php' },
+    ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'typescript', 'help', 'php', 'vue' },
 
     highlight = { enable = true },
     indent = { enable = true },
@@ -188,7 +193,59 @@ end
 
 -- Enable the following language servers
 -- Feel free to add/remove any LSPs that you want here. They will automatically be installed
-local servers = { 'clangd', 'rust_analyzer', 'pyright', 'tsserver', 'sumneko_lua', 'phpactor' }
+local servers = { 'clangd', 'rust_analyzer', 'pyright', 'phpactor',
+    'tailwindcss', 'jdtls', 'tsserver', 'cssls', 'lua_ls' }
+
+
+function CheckVueInstall()
+    local packageJson = string.format("%s/package.json", vim.loop.cwd())
+    local f = io.open(packageJson, "rb")
+    if not f then return false end
+    local content = f:read("*a")
+    local doesExist = false
+    local x = string.find(content, "vue")
+    if x then
+        doesExist = true
+    end
+    f:close()
+    return doesExist
+end
+
+if CheckVueInstall() then
+    local index = 1;
+    for k, v in ipairs(servers) do
+        if v == "tsserver" then
+            index = k
+        end
+    end
+    table.remove(servers, index);
+    local util = require 'lspconfig.util'
+
+    local function get_typescript_server_path(root_dir)
+        --local global_ts = '/home/aman/.npm/lib/node_modules/typescript/lib'
+        -- Alternative location if installed as root:
+        local global_ts = '/usr/local/lib/node_modules/typescript/lib'
+        local found_ts = ''
+        local function check_dir(path)
+            found_ts = util.path.join(path, 'node_modules', 'typescript', 'lib')
+            if util.path.exists(found_ts) then
+                return path
+            end
+        end
+        if util.search_ancestors(root_dir, check_dir) then
+            return found_ts
+        else
+            return global_ts
+        end
+    end
+
+    require 'lspconfig'.volar.setup {
+        filetypes = { 'typescript', 'javascript', 'vue' },
+        on_new_config = function(new_config, new_root_dir)
+            new_config.init_options.typescript.tsdk = get_typescript_server_path(new_root_dir)
+        end,
+    }
+end
 
 -- Ensure the servers above are installed
 require('mason-lspconfig').setup {
@@ -200,6 +257,7 @@ local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 local lsp_flags = { debounce_text_changes = 50 };
 
+
 for _, lsp in ipairs(servers) do
     require('lspconfig')[lsp].setup {
         on_attach = on_attach,
@@ -208,20 +266,44 @@ for _, lsp in ipairs(servers) do
     }
 end
 
-require('lspconfig').sumneko_lua.setup {
-    on_attach = on_attach,
+
+require('lspconfig').rust_analyzer.setup({
     capabilities = capabilities,
+    on_attach = on_attach,
     flags = lsp_flags,
     settings = {
+        ["rust-analyzer"] = {
+            cargo = {
+                allFeatures = true,
+            },
+        },
+    },
+})
+
+require 'lspconfig'.lua_ls.setup {
+    settings = {
         Lua = {
+            runtime = {
+                -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+                version = 'LuaJIT',
+            },
             diagnostics = {
+                -- Get the language server to recognize the `vim` global
                 globals = { 'vim' },
             },
+            workspace = {
+                -- Make the server aware of Neovim runtime files
+                library = vim.api.nvim_get_runtime_file("", true),
+            },
             -- Do not send telemetry data containing a randomized but unique identifier
-            telemetry = { enable = false },
+            telemetry = {
+                enable = false,
+            },
         },
     },
 }
+
+
 
 
 local cmp = require('cmp')
@@ -276,10 +358,10 @@ cmp.setup.cmdline(':', {
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     vim.lsp.diagnostic.on_publish_diagnostics, {
-    virtual_text = true,
-    signs = true,
-    update_in_insert = true,
-}
+        virtual_text = true,
+        signs = true,
+        update_in_insert = true,
+    }
 )
 
 vim.diagnostic.config({
@@ -296,6 +378,9 @@ require('gitsigns').setup {
         changedelete = { text = '~' },
     },
 }
+
+-- flutter
+require("flutter-tools").setup {} -- use defaults
 
 -- becauing doing vim.cmd again and again is boring
 local vimrc = vim.fn.stdpath("config") .. "/setup.vim"

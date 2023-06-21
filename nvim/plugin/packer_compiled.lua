@@ -114,6 +114,11 @@ _G.packer_plugins = {
     path = "/home/aman/.local/share/nvim/site/pack/packer/start/fidget.nvim",
     url = "https://github.com/j-hui/fidget.nvim"
   },
+  ["flutter-tools.nvim"] = {
+    loaded = true,
+    path = "/home/aman/.local/share/nvim/site/pack/packer/start/flutter-tools.nvim",
+    url = "https://github.com/akinsho/flutter-tools.nvim"
+  },
   ["friendly-snippets"] = {
     loaded = true,
     path = "/home/aman/.local/share/nvim/site/pack/packer/start/friendly-snippets",
@@ -283,6 +288,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/aman/.local/share/nvim/site/pack/packer/start/vim-toml",
     url = "https://github.com/cespare/vim-toml"
+  },
+  ["vim-translator"] = {
+    loaded = true,
+    path = "/home/aman/.local/share/nvim/site/pack/packer/start/vim-translator",
+    url = "https://github.com/voldikss/vim-translator"
   },
   ["vim-yaml"] = {
     loaded = true,

@@ -76,8 +76,6 @@ map <C-p> :GFiles<CR>
 map <C-f> :Files<CR>
 nmap <leader>; :Buffers<CR>
 
-" Quick-save
-nmap <leader>w :w<CR>
 
 " Don't confirm .lvimrc
 let g:localvimrc_ask = 0
@@ -95,7 +93,7 @@ let g:rust_clip_command = 'xclip -selection clipboard'
 " noselect: Do not select, force user to select one from the menu
 set completeopt=menuone,noinsert,noselect
 " Better display for messages
-set cmdheight=2
+set cmdheight=3
 " You will have bad experience for diagnostic messages when it's default 4000.
 set updatetime=50
 
@@ -118,9 +116,6 @@ let g:sneak#s_next = 1
 let g:vim_markdown_new_list_item_indent = 0
 let g:vim_markdown_auto_insert_bullets = 0
 let g:vim_markdown_frontmatter = 1
-set printfont=:h10
-set printencoding=utf-8
-set printoptions=paper:letter
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
@@ -207,17 +202,17 @@ au TextYankPost * silent! lua vim.highlight.on_yank() " Highlight yank
 set listchars=nbsp:¬,extends:»,precedes:«,trail:•
 
 " # Keyboard shortcuts
-" Ctrl+h to stop searching
-"vnoremap <C-h> :nohlsearch<cr>
-"nnoremap <C-h> :nohlsearch<cr>
+" leader + h to stop searching
+vnoremap <leader>h :nohlsearch<cr>
+nnoremap <leader>h :nohlsearch<cr>
 
 " Jump to start and end of line using the home row keys
 map H ^
 map L $
 
 " Neat X clipboard integration
-" ,p will paste clipboard into buffer
-" ,c will copy entire buffer into clipboard
+" <leader>p will paste clipboard into buffer
+" <leader>c will copy entire buffer into clipboard
 noremap <leader>p :read !xsel --clipboard --output<cr>
 noremap <leader>c :w !xsel -ib<cr><cr>
 
@@ -293,6 +288,3 @@ autocmd BufRead *.tex set filetype=tex
 autocmd BufRead *.trm set filetype=c
 autocmd BufRead *.xlsx.axlsx set filetype=ruby
 
-" =============================================================================
-" # Footer
-" =============================================================================

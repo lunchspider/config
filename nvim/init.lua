@@ -382,6 +382,6 @@ require('gitsigns').setup {
 -- flutter
 require("flutter-tools").setup {} -- use defaults
 
--- becauing doing vim.cmd again and again is boring
+-- because doing vim.cmd again and again is boring
 local vimrc = vim.fn.stdpath("config") .. "/setup.vim"
 vim.cmd.source(vimrc)

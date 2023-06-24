@@ -1,5 +1,6 @@
 -- fish doesn't always work
 vim.g["shell"] = "/bin/bash"
+vim.g.mapleader = " "
 -- =============================================================================
 -- # installing packages
 -- =============================================================================
@@ -53,8 +54,6 @@ require('packer').startup(function(use)
 
     -- Fuzzy finder
     use 'airblade/vim-rooter'
-    use { 'junegunn/fzf', run = ":call fzf#install()" }
-    use 'junegunn/fzf.vim'
 
     -- Semantic language support
     use 'neovim/nvim-lspconfig'

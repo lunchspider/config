@@ -1,5 +1,3 @@
-let mapleader = "\<Space>"
-
 if has('nvim')
     set guicursor=n-v-c:block-Cursor/lCursor-blinkon0,i-ci:ver25-Cursor/lCursor,r-cr:hor20-Cursor/lCursor
     set inccommand=nosplit
@@ -72,9 +70,9 @@ let g:latex_fold_envs = 0
 let g:latex_fold_sections = []
 
 " Open hotkeys
-map <C-p> :GFiles<CR>
-map <C-f> :Files<CR>
-nmap <leader>; :Buffers<CR>
+map <C-p> <cmd>Telescope find_files<CR>
+map <C-f> <cmd>Telescope live_grep<CR>
+nmap <leader>; <cmd>Telescope buffers<CR>
 
 
 " Don't confirm .lvimrc
@@ -217,24 +215,8 @@ noremap <leader>p :read !xsel --clipboard --output<cr>
 noremap <leader>c :w !xsel -ib<cr><cr>
 
 " <leader>s for Rg search
-noremap <leader>s :Rg <cr>
-"let g:fzf_layout = { 'down': '~20%' }
-command! -bang -nargs=* Rg
-  \ call fzf#vim#grep(
-  \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
-  \   <bang>0 ? fzf#vim#with_preview('up:60%')
-  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
-  \   <bang>0)
+noremap <leader>s <cmd>Telescope live_grep<cr>
 
-function! s:list_cmd()
-  let base = fnamemodify(expand('%'), ':h:.:S')
-  return base == '.' ? 'fd --type file --follow' : printf('fd --type file --follow | proximity-sort %s', shellescape(expand('%')))
-endfunction
-
-"command! -bang -nargs=? -complete=dir Files
-"  \ call fzf#vim#files(<q-args>, {'source': s:list_cmd(),
-"  \                               'options': '--tiebreak=index'}, <bang>0)
-"
 
 " Left and right can switch buffers
 nnoremap <left> :bp<CR>

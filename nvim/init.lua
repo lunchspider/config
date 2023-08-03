@@ -192,8 +192,8 @@ end
 
 -- Enable the following language servers
 -- Feel free to add/remove any LSPs that you want here. They will automatically be installed
-local servers = { 'clangd', 'rust_analyzer', 'pyright', 'phpactor',
-    'tailwindcss', 'jdtls', 'tsserver', 'cssls', 'lua_ls' , 'csharp_ls'}
+local servers = { 'clangd', 'rust_analyzer', 'pyright',
+    'tailwindcss', 'jdtls', 'tsserver', 'cssls', 'lua_ls'  }
 
 
 function CheckVueInstall()

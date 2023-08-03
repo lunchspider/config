@@ -61,7 +61,7 @@ require('packer').startup(function(use)
     use 'williamboman/mason-lspconfig.nvim'
     use { 'nvim-treesitter/nvim-treesitter', run = ":TSUpdate" }
     -- shows lsp status
-    use 'j-hui/fidget.nvim'
+    use {'j-hui/fidget.nvim', tag = 'legacy'}
 
     -- Autocompletion
     use 'hrsh7th/nvim-cmp'
@@ -106,8 +106,11 @@ require("fidget").setup {}
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
 require('nvim-treesitter.configs').setup {
+    ignore_install = false,
+    sync_install = false,
+    auto_install = true,
     -- Add languages to be installed here that you want installed for treesitter
-    ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'typescript', 'help', 'php', 'vue' },
+    ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'typescript', 'php', 'vue' },
 
     highlight = { enable = true },
     indent = { enable = true },

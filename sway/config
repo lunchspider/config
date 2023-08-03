@@ -23,7 +23,7 @@ set $menu exec wofi --show drun
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
+output * bg /home/aman/Pictures/wallpapers/wallhaven-jxv6jm.png fill
 #
 # Example configuration:
 #
@@ -202,16 +202,34 @@ bindsym $mod+r mode "resize"
 # Read `man 5 sway-bar` for more information about this section.
 bar {
     position top
-
-    # When the status_command prints a new line to stdout, swaybar updates.
-    # The default just shows the current date and time.
-    status_command while date +'%Y-%m-%d %I:%M:%S %p'; do sleep 1; done
+    # Keep in mind that the current directory of this config file is $HOME
+    status_command while ~/.config/sway/status.sh; do sleep 1; done
 
     colors {
+        # Text color of status bar
         statusline #ffffff
+        # Background of status bar
         background #323232
-        inactive_workspace #32323200 #32323200 #5c5c5c
     }
 }
 
+default_border none
+default_border pixel 2
+default_floating_border none
+default_floating_border pixel 2
+
+bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+
+# screen backlight, first set min and restore previous
+exec light -N 5
+exec light -I
+bindsym XF86MonBrightnessUp   exec "light -A 10 && light -O"
+bindsym XF86MonBrightnessDown exec "light -U 10 && light -O"
+# keyboard backlight
+bindsym XF86KbdBrightnessUp   exec "light -S 100 -s sysfs/leds/spi::kbd_backlight"
+bindsym XF86KbdBrightnessDown exec "light -S 0   -s sysfs/leds/spi::kbd_backlight"
+
 include /etc/sway/config.d/*
+

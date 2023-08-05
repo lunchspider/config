@@ -25,7 +25,7 @@ require('packer').startup(function(use)
     use 'ciaranm/securemodelines'
     use 'editorconfig/editorconfig-vim'
     use 'justinmk/vim-sneak'
-    use 'morhetz/gruvbox'
+    use 'folke/tokyonight.nvim'
     use 'christoomey/vim-tmux-navigator'
     use 'mbbill/undotree'
     use 'lukas-reineke/indent-blankline.nvim'
@@ -48,8 +48,7 @@ require('packer').startup(function(use)
     use 'nvim-tree/nvim-tree.lua'
 
     -- GUI enhancements
-    use 'vim-airline/vim-airline'
-    use 'vim-airline/vim-airline-themes'
+    use 'nvim-lualine/lualine.nvim'
     use 'andymass/vim-matchup'
 
     -- Fuzzy finder
@@ -383,6 +382,23 @@ require('gitsigns').setup {
 
 -- flutter
 require("flutter-tools").setup {} -- use defaults
+
+require('lualine').setup{
+    options = {
+        theme = 'tokyonight'
+    }
+}
+
+require('tokyonight').setup{
+    style = 'storm',
+    light_style = 'night',
+    transparent = true,
+    styles = {
+       sidebars = "transparent",
+       floats = "transparent",
+    }
+}
+
 
 -- because doing vim.cmd again and again is boring
 local vimrc = vim.fn.stdpath("config") .. "/setup.vim"

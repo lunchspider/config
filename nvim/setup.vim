@@ -16,7 +16,7 @@ set background=dark
 let base16colorspace=256
 "let g:base16_shell_path="~/dev/others/base16/templates/shell/scripts/"
 "colorscheme base16-gruvbox-dark-hard
-colorscheme gruvbox
+colorscheme tokyonight
 syntax on
 hi Normal ctermbg=NONE
 
@@ -44,10 +44,6 @@ let g:secure_modelines_allowed_items = [
                 \ "colorcolumn"
                 \ ]
 
-" Airline
-let g:airline_powerline_fonts = 1
-let g:airline_theme='gruvbox'
-let g:airline#extensions#whitespace#enabled = 0
 
 " from http://sheerun.net/2014/03/21/how-to-boost-your-vim-productivity/
 if executable('ag')

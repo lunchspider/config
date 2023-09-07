@@ -4,93 +4,97 @@ vim.g.mapleader = " "
 -- =============================================================================
 -- # installing packages
 -- =============================================================================
--- Load packer
-local ensure_packer = function()
-    local fn = vim.fn
-    local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
-    if fn.empty(fn.glob(install_path)) > 0 then
-        fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path })
-        vim.cmd [[packadd packer.nvim]]
-        return true
-    end
-    return false
+-- Load Lazy
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+    vim.fn.system({
+        "git",
+        "clone",
+        "--filter=blob:none",
+        "https://github.com/folke/lazy.nvim.git",
+        "--branch=stable", -- latest stable release
+        lazypath,
+    })
 end
+vim.opt.rtp:prepend(lazypath)
 
-local packer_bootstrap = ensure_packer()
 
-require('packer').startup(function(use)
+
+require('lazy').setup({
     -- Load useins
     --VIM enhancements
-    use 'wbthomason/packer.nvim'
-    use 'ciaranm/securemodelines'
-    use 'editorconfig/editorconfig-vim'
-    use 'justinmk/vim-sneak'
-    use 'folke/tokyonight.nvim'
-    use 'christoomey/vim-tmux-navigator'
-    use 'mbbill/undotree'
-    use 'lukas-reineke/indent-blankline.nvim'
-    use 'lewis6991/gitsigns.nvim'
-    use 'junegunn/gv.vim'
+    'wbthomason/packer.nvim',
+    'folke/tokyonight.nvim',
+    'christoomey/vim-tmux-navigator',
+    'mbbill/undotree',
+    'lukas-reineke/indent-blankline.nvim',
+    'airblade/vim-rooter',
     -- for translations
-    use 'voldikss/vim-translator'
-
-    use {
-        'nvim-telescope/telescope.nvim', tag = '0.1.1',
-        -- or                            , branch = '0.1.x',
-        requires = { { 'nvim-lua/plenary.nvim' } }
-    }
-
-    -- Git integration
-    use 'tpope/vim-fugitive'
-
-    -- File tree useins
-    use 'nvim-tree/nvim-web-devicons' -- optional, for file icons
-    use 'nvim-tree/nvim-tree.lua'
-
-    -- GUI enhancements
-    use 'nvim-lualine/lualine.nvim'
-    use 'andymass/vim-matchup'
+    'voldikss/vim-translator',
 
     -- Fuzzy finder
-    use 'airblade/vim-rooter'
+    {
+        'nvim-telescope/telescope.nvim',
+        dependencies = {  'nvim-lua/plenary.nvim'  }
+    },
+
+    -- Git integration
+    'tpope/vim-fugitive',
+    'lewis6991/gitsigns.nvim',
+    'junegunn/gv.vim',
+
+    -- File tree useins
+    {'nvim-tree/nvim-tree.lua',
+        dependencies = {
+            'nvim-tree/nvim-web-devicons', -- optional, for file icons
+        }
+    },
+
+    -- GUI enhancements
+    'nvim-lualine/lualine.nvim',
+
 
     -- Semantic language support
-    use 'neovim/nvim-lspconfig'
-    use 'williamboman/mason.nvim'
-    use 'williamboman/mason-lspconfig.nvim'
-    use { 'nvim-treesitter/nvim-treesitter', run = ":TSUpdate" }
-    -- shows lsp status
-    use {'j-hui/fidget.nvim', tag = 'legacy'}
+    'neovim/nvim-lspconfig',
+    'williamboman/mason.nvim',
+    'williamboman/mason-lspconfig.nvim',
+    {
+        -- Highlight, edit, and navigate code
+        'nvim-treesitter/nvim-treesitter',
+        dependencies = {
+            'nvim-treesitter/nvim-treesitter-textobjects',
+        },
+        build = ':TSUpdate',
+    },
+
+    {'j-hui/fidget.nvim', tag = 'legacy'},
 
     -- Autocompletion
-    use 'hrsh7th/nvim-cmp'
-    use 'hrsh7th/cmp-buffer'
-    use 'hrsh7th/cmp-path'
-    use 'saadparwaiz1/cmp_luasnip'
-    use 'hrsh7th/cmp-nvim-lsp'
-    use 'hrsh7th/cmp-nvim-lua'
-    use 'windwp/nvim-autopairs'
+    'hrsh7th/nvim-cmp',
+    'hrsh7th/cmp-buffer',
+    'hrsh7th/cmp-path',
+    'saadparwaiz1/cmp_luasnip',
+    'hrsh7th/cmp-nvim-lsp',
+    'hrsh7th/cmp-nvim-lua',
+    'windwp/nvim-autopairs',
 
     --  Snippets
-    use 'L3MON4D3/LuaSnip'
-    use 'rafamadriz/friendly-snippets'
+    'L3MON4D3/LuaSnip',
+    'rafamadriz/friendly-snippets',
 
     -- Syntactic language support
-    use 'cespare/vim-toml'
-    use 'stephpy/vim-yaml'
-    use 'rust-lang/rust.vim'
-    use 'rhysd/vim-clang-format'
+    'cespare/vim-toml',
+    'stephpy/vim-yaml',
+    'rust-lang/rust.vim',
+    'rhysd/vim-clang-format',
     --use 'fatih/vim-go'
-    use 'dag/vim-fish'
-    use 'godlygeek/tabular'
-    use 'plasticboy/vim-markdown'
-    use { 'prettier/vim-prettier', run = "yarn install --forzen-lockfile production" }
+    'dag/vim-fish',
+    {'godlygeek/tabular', lazy = true},
+    'plasticboy/vim-markdown',
+    --{ 'prettier/vim-prettier', build = "yarn install --forzen-lockfile production" },
     -- flutter development
-    use { 'akinsho/flutter-tools.nvim', requires = 'nvim-lua/plenary.nvim' }
-end)
-if packer_bootstrap then
-    require('packer').sync()
-end
+    { 'akinsho/flutter-tools.nvim', dependencies = 'nvim-lua/plenary.nvim' },
+})
 
 require('indent_blankline').setup {
     char = '┊',
@@ -293,6 +297,7 @@ require 'lspconfig'.lua_ls.setup {
                 globals = { 'vim' },
             },
             workspace = {
+                checkThirdParty = false,
                 -- Make the server aware of Neovim runtime files
                 library = vim.api.nvim_get_runtime_file("", true),
             },
@@ -394,8 +399,8 @@ require('tokyonight').setup{
     light_style = 'night',
     transparent = true,
     styles = {
-       sidebars = "transparent",
-       floats = "transparent",
+        sidebars = "transparent",
+        floats = "transparent",
     }
 }
 

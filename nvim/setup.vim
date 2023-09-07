@@ -12,16 +12,22 @@ if (match($TERM, "-256color") != -1) && (match($TERM, "screen-256color") == -1)
   " screen does not (yet) support truecolor
   set termguicolors
 endif
+
+
 set background=dark
+let g:gruvbox_contrast_dark = 'dark'
+let g:gruvbox_transparent_bg = 1
 let base16colorspace=256
+
+"autocmd VimEnter * hi Normal ctermbg=none guibg=NONE
 "let g:base16_shell_path="~/dev/others/base16/templates/shell/scripts/"
 "colorscheme base16-gruvbox-dark-hard
-colorscheme tokyonight
+colorscheme gruvbox
 syntax on
-hi Normal ctermbg=NONE
+
 
 "
-"80 widht
+"80 widhtguibg=NONE
 highlight ColorColumn ctermbg=magenta
 " colors the 80 coloumn widht line reminding to write a line with only 80 widht
 " this stops anyone from using more than 80 coloumn
@@ -106,7 +112,6 @@ set noshowmode
 set hidden
 set nowrap
 set nojoinspaces
-let g:sneak#s_next = 1
 let g:vim_markdown_new_list_item_indent = 0
 let g:vim_markdown_auto_insert_bullets = 0
 let g:vim_markdown_frontmatter = 1
@@ -162,16 +167,12 @@ nnoremap ? ?\v
 nnoremap / /\v
 cnoremap %s/ %sm/
 
-" Nerd tree
-nnoremap <C-n> :NvimTreeToggle<CR>
-
 " vim-rooter
 let g:rooter_patterns = ['.git', 'Makefile', '*.sln', 'build/env.sh']
 
 " # GUI settings
 
-set guioptions-=T " Remove toolbar
-set vb t_vb= " No more beeps
+set guioptions-=T " Remove toolbar set vb t_vb= " No more beeps
 set backspace=2 " Backspace over newlines
 set nofoldenable
 set ttyfast

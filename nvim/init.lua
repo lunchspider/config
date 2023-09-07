@@ -7,9 +7,7 @@ vim.g.mapleader = " "
 -- Load Lazy
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
-    vim.fn.system({
-        "git",
-        "clone",
+    vim.fn.system({ "git", "clone",
         "--filter=blob:none",
         "https://github.com/folke/lazy.nvim.git",
         "--branch=stable", -- latest stable release
@@ -23,8 +21,8 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
     -- Load useins
     --VIM enhancements
-    'wbthomason/packer.nvim',
-    'folke/tokyonight.nvim',
+    'tribela/vim-transparent',
+    { 'morhetz/gruvbox', priority = 1000 },
     'christoomey/vim-tmux-navigator',
     'mbbill/undotree',
     'lukas-reineke/indent-blankline.nvim',
@@ -40,15 +38,8 @@ require('lazy').setup({
 
     -- Git integration
     'tpope/vim-fugitive',
-    'lewis6991/gitsigns.nvim',
     'junegunn/gv.vim',
 
-    -- File tree useins
-    {'nvim-tree/nvim-tree.lua',
-        dependencies = {
-            'nvim-tree/nvim-web-devicons', -- optional, for file icons
-        }
-    },
 
     -- GUI enhancements
     'nvim-lualine/lualine.nvim',
@@ -89,7 +80,7 @@ require('lazy').setup({
     'rhysd/vim-clang-format',
     --use 'fatih/vim-go'
     'dag/vim-fish',
-    {'godlygeek/tabular', lazy = true},
+    'godlygeek/tabular',
     'plasticboy/vim-markdown',
     --{ 'prettier/vim-prettier', build = "yarn install --forzen-lockfile production" },
     -- flutter development
@@ -102,7 +93,6 @@ require('indent_blankline').setup {
 }
 
 require("mason").setup()
-require('nvim-tree').setup()
 require("nvim-autopairs").setup {}
 require("fidget").setup {}
 
@@ -374,36 +364,8 @@ vim.diagnostic.config({
     virtual_text = true
 })
 
--- Gitsigns (git icons)
-require('gitsigns').setup {
-    signs = {
-        add = { text = '+' },
-        change = { text = '~' },
-        delete = { text = '_' },
-        topdelete = { text = '‾' },
-        changedelete = { text = '~' },
-    },
-}
-
 -- flutter
 require("flutter-tools").setup {} -- use defaults
-
-require('lualine').setup{
-    options = {
-        theme = 'tokyonight'
-    }
-}
-
-require('tokyonight').setup{
-    style = 'storm',
-    light_style = 'night',
-    transparent = true,
-    styles = {
-        sidebars = "transparent",
-        floats = "transparent",
-    }
-}
-
 
 -- because doing vim.cmd again and again is boring
 local vimrc = vim.fn.stdpath("config") .. "/setup.vim"

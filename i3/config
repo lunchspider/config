@@ -173,9 +173,9 @@ bindsym $mod+Shift+9 move container to workspace number $ws9
 bindsym $mod+Shift+0 move container to workspace number $ws10
 
 # reload the configuration file
-# bindsym $mod+Shift+r reload
+bindsym $mod+Shift+r reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
-bindsym $mod+Shift+r restart
+#bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
 bindsym $mod+Shift+q exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
@@ -235,7 +235,7 @@ default_floating_border pixel 2
 # setting refresh rate to be 300
 exec xrandr --output DP-2 --mode 1920x1080 --rate 300
 
-exec picom --config $HOME/.config/i3/picom.conf  &> /dev/null &
+exec picom --config $HOME/.config/i3/picom.conf  --blur-background &> /dev/null &
 
 exec nitrogen --restore
 

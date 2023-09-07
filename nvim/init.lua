@@ -42,7 +42,10 @@ require('lazy').setup({
 
 
     -- GUI enhancements
-    'nvim-lualine/lualine.nvim',
+    {
+        'nvim-lualine/lualine.nvim',
+        dependencies = {'nvim-tree/nvim-web-devicons'}
+    },
 
 
     -- Semantic language support
@@ -366,6 +369,12 @@ vim.diagnostic.config({
 
 -- flutter
 require("flutter-tools").setup {} -- use defaults
+
+require('lualine').setup {
+    options = {
+        theme = 'gruvbox'
+    }
+}
 
 -- because doing vim.cmd again and again is boring
 local vimrc = vim.fn.stdpath("config") .. "/setup.vim"

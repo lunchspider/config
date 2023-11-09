@@ -235,7 +235,7 @@ default_floating_border pixel 2
 # setting refresh rate to be 300
 exec xrandr --output DP-2 --mode 1920x1080 --rate 300
 
-exec_always "picom --config ~/.config/i3/picom.conf"
+exec picom --config ~/.config/i3/picom.conf
 
 exec nitrogen --restore
 

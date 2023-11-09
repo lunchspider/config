@@ -28,7 +28,7 @@ syntax on
 
 "
 "80 widhtguibg=NONE
-highlight ColorColumn ctermbg=magenta
+highlight ColorColumn ctermbg=red
 " colors the 80 coloumn widht line reminding to write a line with only 80 widht
 " this stops anyone from using more than 80 coloumn
 call matchadd('ColorColumn', '\%81v',100)

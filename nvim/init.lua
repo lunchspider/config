@@ -25,7 +25,7 @@ require('lazy').setup({
     { 'morhetz/gruvbox', priority = 1000 },
     'christoomey/vim-tmux-navigator',
     'mbbill/undotree',
-    'lukas-reineke/indent-blankline.nvim',
+    { "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} },
     'airblade/vim-rooter',
     -- for translations
     'voldikss/vim-translator',
@@ -90,10 +90,7 @@ require('lazy').setup({
     { 'akinsho/flutter-tools.nvim', dependencies = 'nvim-lua/plenary.nvim' },
 })
 
-require('indent_blankline').setup {
-    char = '┊',
-    show_trailing_blankline_indent = false,
-}
+require('ibl').setup {}
 
 require("mason").setup()
 require("nvim-autopairs").setup {}

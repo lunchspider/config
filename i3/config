@@ -210,7 +210,7 @@ bindsym $mod+r mode "resize"
 # finds out, if available)
 bar {
     status_command i3status
-    position top
+    position bottom
     font pango:DejaVu Sans Mono 10
     separator_symbol |
 }
@@ -235,7 +235,7 @@ default_floating_border pixel 2
 # setting refresh rate to be 300
 exec xrandr --output DP-2 --mode 1920x1080 --rate 300
 
-exec picom --config ~/.config/i3/picom.conf
+exec picom --config /home/aman/.config/i3/picom.conf
 
 exec nitrogen --restore
 

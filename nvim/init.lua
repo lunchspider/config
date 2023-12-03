@@ -300,7 +300,15 @@ require 'lspconfig'.lua_ls.setup {
     },
 }
 
+local lsp = require('lspconfig');
 
+lsp.ocamllsp.setup{
+   cmd = { "ocamllsp" },
+   filetypes = { "ocaml", "ocaml.menhir", "ocaml.interface", "ocaml.ocamllex", "reason", "dune" },
+   root_dir = lsp.util.root_pattern("*.opam", "esy.json", "package.json", "dune-project", "dune-workspace"),
+   on_attach = on_attach,
+   capabilities = capabilities
+}
 
 
 local cmp = require('cmp')

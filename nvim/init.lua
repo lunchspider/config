@@ -91,7 +91,9 @@ require('lazy').setup({
     { 'akinsho/flutter-tools.nvim', dependencies = 'nvim-lua/plenary.nvim' },
 })
 
-require('ibl').setup {}
+require('ibl').setup {
+    scope = { enabled = false }
+}
 
 require("mason").setup()
 require("nvim-autopairs").setup {}

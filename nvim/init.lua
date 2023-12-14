@@ -86,6 +86,7 @@ require('lazy').setup({
     'dag/vim-fish',
     'godlygeek/tabular',
     'plasticboy/vim-markdown',
+    'preservim/nerdtree',
     --{ 'prettier/vim-prettier', build = "yarn install --forzen-lockfile production" },
     -- flutter development
     { 'akinsho/flutter-tools.nvim', dependencies = 'nvim-lua/plenary.nvim' },

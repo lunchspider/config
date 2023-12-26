@@ -86,7 +86,7 @@ require('lazy').setup({
     'dag/vim-fish',
     'godlygeek/tabular',
     'plasticboy/vim-markdown',
-    'preservim/nerdtree',
+    'nvim-tree/nvim-tree.lua',
     { 'prettier/vim-prettier', build = "yarn install --forzen-lockfile production" },
     -- flutter development
     { 'akinsho/flutter-tools.nvim', dependencies = 'nvim-lua/plenary.nvim' },
@@ -99,6 +99,7 @@ require('ibl').setup {
 require("mason").setup()
 require("nvim-autopairs").setup {}
 require("fidget").setup {}
+require("nvim-tree").setup {}
 
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`

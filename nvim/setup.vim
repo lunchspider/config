@@ -206,7 +206,7 @@ map H ^
 map L $
 
 " nerd tree
-nnoremap <C-n> :NERDTreeToggle<CR>
+nnoremap <C-n> :NvimTreeToggle<CR>
 
 " Neat X clipboard integration
 " <leader>p will paste clipboard into buffer

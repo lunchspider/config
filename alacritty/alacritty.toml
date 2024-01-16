@@ -24,6 +24,3 @@ blue =     '#7aa6da'
 magenta =  '#c397d8'
 cyan =     '#70c0b1'
 white =    '#eaeaea'
-
-[font.normal]
-family = "SauceCodePro Nerd Font"

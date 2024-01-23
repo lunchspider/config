@@ -1,0 +1,3 @@
+return {
+    'edKotinsky/Arduino.nvim',
+}

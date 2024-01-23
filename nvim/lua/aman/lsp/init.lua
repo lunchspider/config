@@ -101,25 +101,6 @@ for _, lsp in ipairs(servers) do
     }
 end
 
---require('arduino').setup {
---    default_fqbn = "arduino:avr:uno",
---
---    --Path to clangd (all paths must be full)
---    clangd = require 'mason-core.path'.bin_prefix 'clangd',
---
---    --Path to arduino-cli
---    arduino = "$HOME/.local/bin/arduino-cli",
---
---    --Data directory of arduino-cli
---    arduino_config_dir = "$HOME/.arduino15/arduino-cli.yaml",
---}
---
---require('lspconfig').arduino_language_server.setup({
---    capabilities = capabilities,
---    on_attach = on_attach,
---    flags = lsp_flags,
---    on_new_config = require('arduino').on_new_config,
---})
 
 require('lspconfig').rust_analyzer.setup({
     capabilities = capabilities,
@@ -157,6 +138,16 @@ require 'lspconfig'.lua_ls.setup {
         },
     },
 }
+
+require('lspconfig').arduino_language_server.setup({
+    cmd = {
+       require('mason-core.path').bin_prefix('arduino-language-server'),
+       "-cli-config", "/home/aman/.arduino15/arduino-cli.yaml",
+       "-fqbn", "arduino:avr:uno",
+       "-cli", os.getenv('HOME') .. '/.local/bin/arduino-cli',
+       "-clangd", require('mason-core.path').bin_prefix('clangd')
+    }
+})
 
 local lsp = require('lspconfig');
 

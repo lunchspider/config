@@ -34,10 +34,6 @@ vim.keymap.set('v', '<leader>c', '"+yi<ESC>')
 vim.keymap.set('n', '<left>', ':bp<CR>')
 vim.keymap.set('n', '<right>', ':bn<CR>')
 
---save my sanity
-vim.keymap.set('n', 'j', 'gj')
-vim.keymap.set('n', 'k', 'gk')
-
 -- because for some reason Ctrl-c is not esc in normal mode
 vim.keymap.set('i', '<C-c>', '<ESC>')
 

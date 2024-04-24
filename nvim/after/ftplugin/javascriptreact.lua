@@ -1,1 +1,1 @@
-vim.cmd[[setlocal expandtab softtabstop=2 shiftwidth=2]]
+#vim.cmd[[setlocal expandtab softtabstop=2 shiftwidth=2]]

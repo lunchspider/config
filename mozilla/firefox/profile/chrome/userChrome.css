@@ -1,170 +1,65 @@
-@namespace url(http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul);
-/*
-https://github.com/Arty2/userstyles
-@version      0.2.6
-
-1. Find your profile folder `about:support > Profile Folder > Open Folder` or locate the exact profile in use by visiting `about:profiles`.
-2. Create a folder named `chrome` then create a file named userChrome.css inside it and paste the following code.
-3. If userChrome.css doesn’t seem to work, open `about:config` and set `toolkit.legacyUserProfileCustomizations.stylesheets=true`.
-4. Restart Firefox.
-
-Other references:
-Firefox Support forum - Tabs below the URL bar: https://support.mozilla.org/en-US/kb/forum-response-tabs-below-url-bar
-Custom CSS tweaks for Firefox Quantum: https://github.com/Aris-t2/CustomCSSforFx
-*/
-
-/*----------------------------------------------------------
-Tabs to Bottom
-source: https://github.com/Arty2/userstyles/blob/master/tabs_to_bottom.userchrome.css
-
-UI model:
-	#navigator-toolbox
-		#titlebar
-			#toolbar-menubar
-			#TabsToolbar
-		#nav-bar
-		#PersonalToolbar
-	#browser
-*/
-
-/* bring the browser window to the top */
-#browser {
-    -moz-box-ordinal-group: 0 !important;
-    order: 0 !important;
-}
-
-#navigator-toolbox,
-/* after version 119 */
-#navigator-toolbox-background {
-    /* before version 119 */
-    -moz-box-ordinal-group: 1 !important;
-    order: 1 !important;
-}
-
-/* adjust paddings */
-*|*:root[sizemode="normal"] #browser {
-    padding-top: 0 !important;
-}
-
-/* hide tab toolbar when fullscreen */
-#nav-bar[inFullscreen],
-#TabsToolbar[inFullscreen] {
-    display: none;
-}
-
-/* hide titlebar buttons */
-#TabsToolbar>.titlebar-buttonbox-container {
-    display: none !important;
-}
-
-/*fix pop-ups opening below window*/
-#urlbar[open] {
-    display: flex !important;
-    flex-direction: column-reverse;
-    /* use 'column' if you want to type the URL in center*/
-    bottom: -2px !important;
-    top: auto !important;
-}
-
-.urlbarView-body-inner {
-    border-top: none !important;
-}
-
-/*.urlbarView { display: none !important; }*/
-/* uncomment this to hidden address bar suggestions */
-
-#toolbar-menubar[autohide="true"]>.titlebar-buttonbox-container,
-#TabsToolbar>.titlebar-buttonbox-container {
-    position: fixed;
-    display: block;
-    top: 0px;
-    right: 0;
-    height: 40px;
-}
-
-@media (-moz-bool-pref: "userchrome.force-window-controls-on-left.enabled"),
-(-moz-gtk-csd-reversed-placement),
-(-moz-platform: macos) {
-    .titlebar-buttonbox-container {
-        left: 0;
-        right: unset !important;
-    }
-}
-
-@supports -moz-bool-pref("userchrome.force-window-controls-on-left.enabled") {
-    .titlebar-buttonbox-container {
-        left: 0;
-        right: unset !important;
-    }
-}
-
-:root[uidensity="compact"] #TabsToolbar>.titlebar-buttonbox-container {
-    height: 32px
-}
-
-#toolbar-menubar[inactive]>.titlebar-buttonbox-container {
-    opacity: 0
-}
-
-.titlebar-buttonbox-container>.titlebar-buttonbox {
-    height: 100%;
-}
-
-#titlebar {
-    order: 2;
-    -moz-appearance: none !important;
-    --tabs-navbar-shadow-size: 0px;
-    --uc-menubar-vertical-overlap: 19px;
-    /* for hide_tabs_with_one_tab_w_window_controls.css compatibility */
-}
-
-/* Re-order window and tab notification boxes */
-#navigator-toolbox>div {
-    display: contents
-}
-
-.global-notificationbox,
-#tab-notification-deck {
-    order: 2;
-}
-
-#TabsToolbar .titlebar-spacer {
-    display: none;
-}
-
-/* Also hide the toolbox bottom border which isn't at bottom with this setup */
-#navigator-toolbox::after {
-    display: none !important;
-}
-
-@media (-moz-gtk-csd-close-button) {
-    .titlebar-button {
-        flex-direction: column;
-    }
-}
-
-/* At Activated Menubar */
-:root:not([chromehidden~="menubar"], [sizemode="fullscreen"]) #toolbar-menubar:not([autohide="true"])+#TabsToolbar>.titlebar-buttonbox-container {
-    display: block !important;
-}
-
-#toolbar-menubar:not([autohide="true"])>.titlebar-buttonbox-container {
-    visibility: hidden;
-}
-
-/* These exist only for compatibility with autohide-tabstoolbar.css */
-toolbox#navigator-toolbox>toolbar#nav-bar.browser-toolbar {
-    animation: none;
-}
-
-#navigator-toolbox:hover #TabsToolbar {
-    animation: slidein ease-out 48ms 1
-}
-
-#TabsToolbar>.titlebar-buttonbox-container {
-    visibility: visible
-}
-
-:root:not([lwtheme]) #navigator-toolbox {
-    background-color: -moz-dialog
+@-moz-document url(chrome://browser/content/browser.xhtml) {
+	/* tabs on bottom of window */
+	/* requires that you set
+	 * toolkit.legacyUserProfileCustomizations.stylesheets = true
+	 * in about:config
+	 */
+	#main-window body { flex-direction: column-reverse !important; }
+	#navigator-toolbox { flex-direction: column-reverse !important; }
+	#urlbar {
+		top: unset !important;
+		bottom: calc(var(--urlbar-margin-inline)) !important;
+		box-shadow: none !important;
+		display: flex !important;
+		flex-direction: column !important;
+	}
+		#urlbar > * {
+			flex: none;
+		}
+	#urlbar-input-container {
+		order: 2;
+	}
+	#urlbar > .urlbarView {
+		order: 1;
+		border-bottom: 1px solid #666;
+	}
+	#urlbar-results {
+		display: flex;
+		flex-direction: column-reverse;
+	}
+	.search-one-offs { display: none !important; }
+	.tab-background { border-top: none !important; }
+	#navigator-toolbox::after { border: none; }
+	#TabsToolbar .tabbrowser-arrowscrollbox,
+	#tabbrowser-tabs, .tab-stack { min-height: 28px !important; }
+	.tabbrowser-tab { font-size: 80%; }
+	.tab-content { padding: 0 5px; }
+	.tab-close-button .toolbarbutton-icon { width: 12px !important; height: 12px !important; }
+	toolbox[inFullscreen=true] { display: none; }
+	/*
+	 * the following makes it so that the on-click panels in the nav-bar
+	 * extend upwards, not downwards. some of them are in the #mainPopupSet
+	 * (hamburger + unified extensions), and the rest are in
+	 * #navigator-toolbox. They all end up with an incorrectly-measured
+	 * max-height (based on the distance to the _bottom_ of the screen), so
+	 * we correct that. The ones in #navigator-toolbox then adjust their
+	 * positioning automatically, so we can just set max-height. The ones
+	 * in #mainPopupSet do _not_, and so we need to give them a
+	 * negative margin-top to offset them *and* a fixed height so their
+	 * bottoms align with the nav-bar. We also calc to ensure they don't
+	 * end up overlapping with the nav-bar itself. The last bit around
+	 * cui-widget-panelview is needed because "new"-style panels (those
+	 * using "unified" panels) don't get flex by default, which results in
+	 * them being the wrong height.
+	 *
+	 * Oh, yeah, and the popup-notification-panel (like biometrics prompts)
+	 * of course follows different rules again, and needs its own special
+	 * rule.
+	 */
+	#mainPopupSet panel.panel-no-padding { margin-top: calc(-50vh + 40px) !important; }
+	#mainPopupSet .panel-viewstack, #mainPopupSet popupnotification { max-height: 50vh !important; height: 50vh; }
+	#mainPopupSet panel.panel-no-padding.popup-notification-panel { margin-top: calc(-50vh - 35px) !important; }	
+	#navigator-toolbox .panel-viewstack { max-height: 75vh !important; }
+	panelview.cui-widget-panelview { flex: 1; }
+	panelview.cui-widget-panelview > vbox { flex: 1; min-height: 50vh; }
 }

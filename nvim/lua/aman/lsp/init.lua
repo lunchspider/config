@@ -29,7 +29,7 @@ end
 -- Enable the following language servers
 -- Feel free to add/remove any LSPs that you want here. They will automatically be installed
 local servers = { 'clangd', 'rust_analyzer', 'pyright',
-    'tailwindcss', 'jdtls', 'tsserver', 'cssls', 'lua_ls', 'arduino_language_server'  }
+    'tailwindcss', 'jdtls', 'tsserver', 'cssls', 'lua_ls', 'arduino_language_server', 'texlab'  }
 
 
 function CheckVueInstall()
@@ -114,6 +114,42 @@ require('lspconfig').rust_analyzer.setup({
         },
     },
 })
+
+require'lspconfig'.texlab.setup {
+    capabilities=capabilities,
+    on_attach = on_attach,
+    flags = lsp_flags,
+    cmd = { "texlab" },
+    filetypes = { "tex", "bib" },
+    root_dir = function(filename)
+          return require'lspconfig.util'.path.dirname(filename)
+        end,
+    settings = {
+      texlab = {
+        auxDirectory = ".",
+        bibtexFormatter = "texlab",
+        build = {
+          args = { "-pdf", "-interaction=nonstopmode", "-synctex=1", "%f" },
+          executable = "latexmk",
+          forwardSearchAfter = false,
+          onSave = false
+        },
+        chktex = {
+          onEdit = false,
+          onOpenAndSave = false
+        },
+        diagnosticsDelay = 300,
+        formatterLineLength = 80,
+        forwardSearch = {
+          args = {}
+        },
+        latexFormatter = "latexindent",
+        latexindent = {
+          modifyLineBreaks = true,
+        }
+      }
+    }
+}
 
 require 'lspconfig'.lua_ls.setup {
     settings = {

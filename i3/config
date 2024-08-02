@@ -239,3 +239,4 @@ exec picom --config /home/aman/.config/i3/picom.conf
 
 exec nitrogen --restore
 
+exec /usr/libexec/polkit-gnome-authentication-agent-1

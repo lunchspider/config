@@ -5,7 +5,6 @@ set synctex-editor-command "nvim --remote-silent +%{line} %{input}"
 
 # Basic Settings
 
-set highlight-transparency .1
 set zoom-center "true"
 set selection-clipboard clipboard
 set render-loading "false"
@@ -50,8 +49,8 @@ set statusbar-bg                "#d5c4a1" # bg2
 set statusbar-fg                "#3c3836" # fg
 set statusbar-v-padding         7
 
-set highlight-color             "#b57614" # bright:yellow
-set highlight-active-color      "#af3a03" # bright:orange
+set highlight-color             "rgba(255, 255, 0, 0.1)"
+set highlight-active-color      "rgba(175, 58, 3, 0.1)" # bright:orange
 
 set default-bg                  "#1d2021" # bg
 set default-fg                  "#3c3836" # fg

@@ -1,7 +1,6 @@
 return {
     "lervag/vimtex",
     lazy = false,
-    tag = "v2.15", -- uncomment to pin to a specific release
     init = function ()
         vim.g['vimtex_view_method'] = 'zathura'     -- main variant with xdotool (requires X11; not compatible with wayland)
         --vim.g['vimtex_view_method'] = 'zathura_simple' -- for variant without xdotool to avoid errors in wayland

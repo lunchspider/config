@@ -29,7 +29,7 @@ end
 -- Enable the following language servers
 -- Feel free to add/remove any LSPs that you want here. They will automatically be installed
 local servers = { 'clangd', 'rust_analyzer', 'pyright',
-    'tailwindcss', 'jdtls', 'tsserver', 'cssls', 'lua_ls', 'arduino_language_server', 'texlab'  }
+    'tailwindcss', 'jdtls', 'ts_ls', 'cssls', 'lua_ls', 'arduino_language_server', 'texlab'  }
 
 
 function CheckVueInstall()
@@ -106,13 +106,6 @@ require('lspconfig').rust_analyzer.setup({
     capabilities = capabilities,
     on_attach = on_attach,
     flags = lsp_flags,
-    settings = {
-        ["rust-analyzer"] = {
-            cargo = {
-                allFeatures = true,
-            },
-        },
-    },
 })
 
 require'lspconfig'.texlab.setup {

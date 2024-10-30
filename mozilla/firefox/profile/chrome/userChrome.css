@@ -1,65 +1,197 @@
-@-moz-document url(chrome://browser/content/browser.xhtml) {
-	/* tabs on bottom of window */
-	/* requires that you set
-	 * toolkit.legacyUserProfileCustomizations.stylesheets = true
-	 * in about:config
-	 */
-	#main-window body { flex-direction: column-reverse !important; }
-	#navigator-toolbox { flex-direction: column-reverse !important; }
-	#urlbar {
-		top: unset !important;
-		bottom: calc(var(--urlbar-margin-inline)) !important;
-		box-shadow: none !important;
-		display: flex !important;
-		flex-direction: column !important;
-	}
-		#urlbar > * {
-			flex: none;
-		}
-	#urlbar-input-container {
-		order: 2;
-	}
-	#urlbar > .urlbarView {
-		order: 1;
-		border-bottom: 1px solid #666;
-	}
-	#urlbar-results {
-		display: flex;
-		flex-direction: column-reverse;
-	}
-	.search-one-offs { display: none !important; }
-	.tab-background { border-top: none !important; }
-	#navigator-toolbox::after { border: none; }
-	#TabsToolbar .tabbrowser-arrowscrollbox,
-	#tabbrowser-tabs, .tab-stack { min-height: 28px !important; }
-	.tabbrowser-tab { font-size: 80%; }
-	.tab-content { padding: 0 5px; }
-	.tab-close-button .toolbarbutton-icon { width: 12px !important; height: 12px !important; }
-	toolbox[inFullscreen=true] { display: none; }
-	/*
-	 * the following makes it so that the on-click panels in the nav-bar
-	 * extend upwards, not downwards. some of them are in the #mainPopupSet
-	 * (hamburger + unified extensions), and the rest are in
-	 * #navigator-toolbox. They all end up with an incorrectly-measured
-	 * max-height (based on the distance to the _bottom_ of the screen), so
-	 * we correct that. The ones in #navigator-toolbox then adjust their
-	 * positioning automatically, so we can just set max-height. The ones
-	 * in #mainPopupSet do _not_, and so we need to give them a
-	 * negative margin-top to offset them *and* a fixed height so their
-	 * bottoms align with the nav-bar. We also calc to ensure they don't
-	 * end up overlapping with the nav-bar itself. The last bit around
-	 * cui-widget-panelview is needed because "new"-style panels (those
-	 * using "unified" panels) don't get flex by default, which results in
-	 * them being the wrong height.
-	 *
-	 * Oh, yeah, and the popup-notification-panel (like biometrics prompts)
-	 * of course follows different rules again, and needs its own special
-	 * rule.
-	 */
-	#mainPopupSet panel.panel-no-padding { margin-top: calc(-50vh + 40px) !important; }
-	#mainPopupSet .panel-viewstack, #mainPopupSet popupnotification { max-height: 50vh !important; height: 50vh; }
-	#mainPopupSet panel.panel-no-padding.popup-notification-panel { margin-top: calc(-50vh - 35px) !important; }	
-	#navigator-toolbox .panel-viewstack { max-height: 75vh !important; }
-	panelview.cui-widget-panelview { flex: 1; }
-	panelview.cui-widget-panelview > vbox { flex: 1; min-height: 50vh; }
+/* Source file https://github.com/MrOtherGuy/firefox-csshacks/tree/master/chrome/toolbars_below_content.css made available under Mozilla Public License v. 2.0
+See the above repository for updates as well as full license text. */
+
+/* Moves tabs toolbar, bookmarks toolbar and main toolbar to the bottom of the window, and makes tabs be the bottom-most toolbar */
+
+/* By default, menubar will stay on top with two options to select it's behavior - see below */
+
+@-moz-document url(chrome://browser/content/browser.xhtml){
+
+#titlebar {
+    -moz-appearance: none !important;
+}
+
+#navigator-toolbox>div {
+    display: contents
+}
+
+.global-notificationbox,
+#mainPopupSet,
+#browser,
+#customization-container,
+#tab-notification-deck {
+    order: -1;
+}
+
+/* Remove the next row if you want tabs to be the top-most row */
+#titlebar {
+    order: 2;
+}
+
+#toolbar-menubar {
+    position: fixed;
+    display: flex;
+    width: 100vw;
+    top: 0px;
+    -moz-window-dragging: drag;
+}
+
+/* Remove bottom border that won't do anything useful when at bottom of the window */
+#navigator-toolbox {
+    border-bottom: none !important;
+}
+
+#toolbar-menubar>spacer {
+    flex-grow: 1
+}
+
+#urlbar[breakout][breakout-extend] {
+    display: flex !important;
+    flex-direction: column-reverse;
+    bottom: 0px !important;
+    /* Change to 3-5 px if using compact_urlbar_megabar.css depending on toolbar density */
+    top: auto !important;
+}
+
+.urlbarView-body-inner {
+    border-top-style: none !important;
+}
+
+/* Yeah, removes window controls. Likely not wanted on bottom row  */
+#TabsToolbar>.titlebar-buttonbox-container {
+    display: none
+}
+
+#toolbar-menubar>.titlebar-buttonbox-container {
+    order: 1000
+}
+
+/* Fix panels sizing */
+.panel-viewstack {
+    max-height: unset !important;
+}
+
+/* Fullscreen mode support */
+:root[sizemode="fullscreen"] #navigator-toolbox {
+    margin-top: 0 !important
+}
+
+:root[sizemode="fullscreen"] #navigator-toolbox[style*="margin-top"] {
+    visibility: collapse
+}
+
+#fullscr-toggler {
+    bottom: 0;
+    top: unset !important;
+}
+
+/* These three rules exist for compatibility with autohide_toolbox.css */
+#navigator-toolbox {
+    bottom: 0px;
+    transform-origin: bottom
+}
+
+#main-window>body>box {
+    margin-top: 0 !important;
+}
+
+#toolbar-menubar {
+    z-index: 1;
+    background-color: var(--lwt-accent-color, black);
+}
+
+:root[BookmarksToolbarOverlapsBrowser] #navigator-toolbox {
+    margin-block: calc(-1 * var(--bookmarks-toolbar-height)) 0 !important;
+}
+
+:root[BookmarksToolbarOverlapsBrowser] .newTabBrowserPanel {
+    padding-block: 0 var(--bookmarks-toolbar-height) !important;
+}
+
+/**************
+  Menubar options - By default, menubar is overlayed on top of web-content
+  ***************/
+
+/* Uncomment the following if you want static menubar on top of the window (make menubar enabled)
+  * Use when menubar is enabled to always show it */
+
+/*
+  #browser,#customization-container{ padding-top: var(--uc-menubar-spacer,28px) }
+  */
+
+/* OR, uncomment the following if you want menubar to appear below content, above tabs toolbar */
+
+#toolbar-menubar {
+    position: static;
+    display: flex;
+    margin-top: 0px !important;
+    background-color: transparent
+}
+
+/* set to "column-reverse" (without quotes) if you want tabs above menubar with the above option */
+#titlebar {
+    flex-direction: column
+}
+}
+
+/* Source file https://github.com/MrOtherGuy/firefox-csshacks/tree/master/chrome/tabs_on_bottom_v2.css made available under Mozilla Public License v. 2.0
+See the above repository for updates as well as full license text. */
+
+/* This reorders toolbar to place tabs below other toolbars. Requires Firefox 133+ */
+
+@media (-moz-bool-pref: "userchrome.force-window-controls-on-left.enabled") {
+    #nav-bar>.titlebar-buttonbox-container {
+        order: -1 !important;
+
+        >.titlebar-buttonbox {
+            flex-direction: row-reverse;
+        }
+    }
+}
+
+@media not (-moz-bool-pref: "sidebar.verticalTabs") {
+
+    .global-notificationbox,
+    #tab-notification-deck,
+    #TabsToolbar {
+        order: 1;
+    }
+
+    #TabsToolbar> :is(.titlebar-spacer, .titlebar-buttonbox-container) {
+        display: none;
+    }
+
+    :root[sizemode="fullscreen"] #nav-bar>.titlebar-buttonbox-container {
+        display: flex !important;
+    }
+
+    :root[tabsintitlebar] #toolbar-menubar:not([autohide="false"])~#nav-bar {
+        >.titlebar-buttonbox-container {
+            display: flex !important;
+        }
+
+        :root[sizemode="normal"] & {
+            >.titlebar-spacer {
+                display: flex !important;
+            }
+        }
+
+        :root[sizemode="maximized"] & {
+            >.titlebar-spacer[type="post-tabs"] {
+                display: flex !important;
+            }
+
+            @media (-moz-bool-pref: "userchrome.force-window-controls-on-left.enabled"),
+            (-moz-gtk-csd-reversed-placement),
+            (-moz-platform: macos) {
+                >.titlebar-spacer[type="post-tabs"] {
+                    display: none !important;
+                }
+
+                >.titlebar-spacer[type="pre-tabs"] {
+                    display: flex !important;
+                }
+            }
+        }
+    }
 }

@@ -170,15 +170,15 @@ require 'lspconfig'.lua_ls.setup {
     },
 }
 
-require('lspconfig').arduino_language_server.setup({
-    cmd = {
-       require('mason-core.path').bin_prefix('arduino-language-server'),
-       "-cli-config", "/home/aman/.arduino15/arduino-cli.yaml",
-       "-fqbn", "arduino:avr:uno",
-       "-cli", os.getenv('HOME') .. '/.local/bin/arduino-cli',
-       "-clangd", require('mason-core.path').bin_prefix('clangd')
-    }
-})
+--require('lspconfig').arduino_language_server.setup({
+--    cmd = {
+--       require('mason-core.path').bin_prefix('arduino-language-server'),
+--       "-cli-config", "/home/aman/.arduino15/arduino-cli.yaml",
+--       "-fqbn", "arduino:avr:uno",
+--       "-cli", os.getenv('HOME') .. '/.local/bin/arduino-cli',
+--       "-clangd", require('mason-core.path').bin_prefix('clangd')
+--    }
+--})
 
 local lsp = require('lspconfig');
 

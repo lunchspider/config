@@ -1,3 +1,4 @@
+vim.opt.shellslash = true
 --You will have bad experience for diagnostic messages when it's default 4000.
 vim.opt.updatetime = 50
 --Completion
@@ -29,7 +30,7 @@ vim.opt.swapfile = false
 vim.opt.backup = false
 
 -- Permanent undo
-vim.opt.undodir= os.getenv('HOME') .. "/.vimdid"
+vim.opt.undodir= (os.getenv('HOME') or vim.fn.stdpath("data")) .. "/.vimdid"
 vim.opt.undofile = true
 
 vim.opt.incsearch = true

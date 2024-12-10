@@ -1,4 +1,4 @@
-vim.opt.shellslash = true
+--vim.opt.shellslash = true
 --You will have bad experience for diagnostic messages when it's default 4000.
 vim.opt.updatetime = 50
 --Completion

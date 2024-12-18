@@ -25,7 +25,9 @@ local on_attach = function(client, bufnr)
     vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
     vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
     vim.keymap.set('n', '<space>f', function() vim.lsp.buf.format { async = true } end, bufopts)
-    vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+    vim.keymap.set('n', '<space>i', function ()
+        vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }), { bufnr = bufnr })
+    end, bufopts)
 end
 
 -- Enable the following language servers
@@ -103,12 +105,6 @@ for _, lsp in ipairs(servers) do
     }
 end
 
-
-require('lspconfig').rust_analyzer.setup({
-    capabilities = capabilities,
-    on_attach = on_attach,
-    flags = lsp_flags,
-})
 
 require'lspconfig'.texlab.setup {
     capabilities=capabilities,

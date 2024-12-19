@@ -8,7 +8,7 @@ local on_attach = function(client, bufnr)
     vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
     -- Mappings.
     -- See `:help vim.lsp.*` for documentation on any of the below functions
-    
+
     local bufopts = { noremap = true, silent = true, buffer = bufnr }
     vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
@@ -24,8 +24,9 @@ local on_attach = function(client, bufnr)
     vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
     vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
     vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
-    vim.keymap.set('n', '<space>f', function() vim.lsp.buf.format { async = true } end, bufopts)
-    vim.keymap.set('n', '<space>i', function ()
+    vim.keymap.set('n', '<space>f', function() vim.lsp.buf.format() end)
+
+    vim.keymap.set('n', '<space>i', function()
         vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }), { bufnr = bufnr })
     end, bufopts)
 end
@@ -33,7 +34,7 @@ end
 -- Enable the following language servers
 -- Feel free to add/remove any LSPs that you want here. They will automatically be installed
 local servers = { 'clangd', 'rust_analyzer', 'pyright',
-    'tailwindcss', 'jdtls', 'ts_ls', 'cssls', 'lua_ls', 'arduino_language_server', 'texlab'  }
+    'tailwindcss', 'jdtls', 'ts_ls', 'cssls', 'lua_ls', 'arduino_language_server', 'texlab' }
 
 
 function CheckVueInstall()
@@ -106,43 +107,46 @@ for _, lsp in ipairs(servers) do
 end
 
 
-require'lspconfig'.texlab.setup {
-    capabilities=capabilities,
+require 'lspconfig'.texlab.setup {
+    capabilities = capabilities,
     on_attach = on_attach,
     flags = lsp_flags,
     cmd = { "texlab" },
     filetypes = { "tex", "bib" },
     root_dir = function(filename)
-          return require'lspconfig.util'.path.dirname(filename)
-        end,
+        return require 'lspconfig.util'.path.dirname(filename)
+    end,
     settings = {
-      texlab = {
-        auxDirectory = ".",
-        bibtexFormatter = "texlab",
-        build = {
-          args = { "-pdf", "-interaction=nonstopmode", "-synctex=1", "%f" },
-          executable = "latexmk",
-          forwardSearchAfter = false,
-          onSave = false
-        },
-        chktex = {
-          onEdit = false,
-          onOpenAndSave = false
-        },
-        diagnosticsDelay = 300,
-        formatterLineLength = 80,
-        forwardSearch = {
-          args = {}
-        },
-        latexFormatter = "latexindent",
-        latexindent = {
-          modifyLineBreaks = true,
+        texlab = {
+            auxDirectory = ".",
+            bibtexFormatter = "texlab",
+            build = {
+                args = { "-pdf", "-interaction=nonstopmode", "-synctex=1", "%f" },
+                executable = "latexmk",
+                forwardSearchAfter = false,
+                onSave = false
+            },
+            chktex = {
+                onEdit = false,
+                onOpenAndSave = false
+            },
+            diagnosticsDelay = 300,
+            formatterLineLength = 80,
+            forwardSearch = {
+                args = {}
+            },
+            latexFormatter = "latexindent",
+            latexindent = {
+                modifyLineBreaks = true,
+            }
         }
-      }
     }
 }
 
 require 'lspconfig'.lua_ls.setup {
+    capabilities = capabilities,
+    on_attach = on_attach,
+    flags = lsp_flags,
     settings = {
         Lua = {
             runtime = {
@@ -176,14 +180,12 @@ require 'lspconfig'.lua_ls.setup {
 --    }
 --})
 
-local lsp = require('lspconfig');
-
-lsp.ocamllsp.setup{
-   cmd = { "ocamllsp" },
-   filetypes = { "ocaml", "ocaml.menhir", "ocaml.interface", "ocaml.ocamllex", "reason", "dune" },
-   root_dir = lsp.util.root_pattern("*.opam", "esy.json", "package.json", "dune-project", "dune-workspace"),
-   on_attach = on_attach,
-   capabilities = capabilities
+require('lspconfig').ocamllsp.setup {
+    cmd = { "ocamllsp" },
+    filetypes = { "ocaml", "ocaml.menhir", "ocaml.interface", "ocaml.ocamllex", "reason", "dune" },
+    root_dir = lsp.util.root_pattern("*.opam", "esy.json", "package.json", "dune-project", "dune-workspace"),
+    on_attach = on_attach,
+    capabilities = capabilities
 }
 
 
@@ -257,4 +259,3 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 vim.diagnostic.config({
     virtual_text = true
 })
-

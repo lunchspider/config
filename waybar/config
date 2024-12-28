@@ -52,8 +52,9 @@
 },
 "network": {
   "interval": 2,
-  "format-wifi": " {signalStrength}%",
-  "format-ethernet": "",
+  "format": "{ifname}",
+  "format-wifi": " {essid} ({signalStrength}%)",
+  "format-ethernet": "{ifname} ",
   "format-linked": " {ipaddr}",
   "format-disconnected": " Disconnected",
   "format-disabled": "",

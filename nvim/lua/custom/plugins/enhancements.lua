@@ -1,8 +1,7 @@
 return {
-    { 'rose-pine/neovim', priority = 1000 },
-    'christoomey/vim-tmux-navigator',
+    { 'rose-pine/neovim',                    priority = 1000 },
     'mbbill/undotree',
-    { "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} },
+    { "lukas-reineke/indent-blankline.nvim", main = "ibl",   opts = {} },
     'airblade/vim-rooter',
     -- for translations
     'voldikss/vim-translator',

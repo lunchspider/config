@@ -5,9 +5,13 @@
 "margin-bottom":0,
 "margin-top":0,
 
-"modules-left": ["hyprland/workspaces"],
-"modules-center": [],
+"modules-left": ["custom/logo", "hyprland/workspaces"],
+"modules-center": ["hyprland/window"],
 "modules-right":  ["cpu","memory","network", "pulseaudio","backlight","battery","clock", "tray"],
+"custom/logo": {
+  "format": "",
+  "tooltip": false
+},
 
 "battery": {
   "states": {

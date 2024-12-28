@@ -20,19 +20,22 @@ vim.keymap.set('v', '<leader>h', '<cmd>nohlsearch<cr>')
 vim.keymap.set('n', '<leader>h', '<cmd>nohlsearch<cr>')
 
 -- Jump to start and end of line using the home row keys
-vim.cmd[[
+vim.cmd [[
     map H ^
     map L $
 ]]
 
 --clipboard integration
-vim.keymap.set('n', '<leader>p', '<ESC>"+pa')
-vim.keymap.set('v', '<leader>p', '"+pa')
-vim.keymap.set('v', '<leader>c', '"+yi<ESC>')
+vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
+vim.keymap.set("n", "<leader>Y", [["+Y]])
 
 --arrow keys switch the buffers
 vim.keymap.set('n', '<left>', ':bp<CR>')
 vim.keymap.set('n', '<right>', ':bn<CR>')
+
+--quickfix list switch
+vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz")
+vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz")
 
 -- because for some reason Ctrl-c is not esc in normal mode
 vim.keymap.set('i', '<C-c>', '<ESC>')

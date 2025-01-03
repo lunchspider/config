@@ -1,5 +1,7 @@
 window-decoration=false
 
+font-family = FiraCode Node Font
+
 theme = rose-pine
 
 background-opacity=0.85

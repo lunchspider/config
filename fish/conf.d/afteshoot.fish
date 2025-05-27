@@ -6,5 +6,4 @@ set -gx TURBOJPEG_SOURCE "explicit"
 set -gx TURBOJPEG_LIB_DIR "$VCPKG_INSTALL_ROOT/lib" 
 set -gx OPENSSL_DIR "$VCPKG_INSTALL_ROOT" 
 set -gx OPENSSL_NO_VENDOR "true" 
-set -gx ORT_DYLIB_PATH "/home/aman/work/aftershoot/backend/develop/lib/linux/libonnxruntime.so"
-set -gx EDITOR nvim
+#set -gx ORT_DYLIB_PATH "/home/aman/work/aftershoot/backend/develop/lib/linux/libonnxruntime.so"

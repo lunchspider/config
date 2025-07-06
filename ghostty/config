@@ -1,7 +1,9 @@
 window-decoration=false
 
-font-family = FiraCode Node Font
+font-family = FiraCodeNerdFont
 
-theme = rose-pine
+theme = tokyonight_night
 
 background-opacity=0.85
+
+initial-command = fish

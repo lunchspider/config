@@ -24,6 +24,8 @@ set --export PATH $BUN_INSTALL/bin $PATH
 # starship config
 starship init fish | source
 
+direnv hook fish | source
+
 
 # opam configuration
 source /home/aman/.opam/opam-init/init.fish > /dev/null 2> /dev/null; or true

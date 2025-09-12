@@ -2,7 +2,7 @@ window-decoration=false
 
 font-family = FiraCodeNerdFont
 
-theme = tokyonight_night
+theme = GruvboxDarkHard
 
 background-opacity=0.85
 

@@ -2,8 +2,8 @@ window-decoration=false
 
 font-family = FiraCodeNerdFont
 
-theme = GruvboxDarkHard
+theme = Catppuccin Mocha
 
-background-opacity=0.85
+background-opacity=0.1
 
 initial-command = fish

@@ -46,11 +46,12 @@ vim.lsp.enable({
     "jdtls",
     "texlab",
     "tailwindcss",
+    "ocamllsp",
 })
 -- Enable the following language servers
 -- Feel free to add/remove any LSPs that you want here. They will automatically be installed
 local servers = { 'clangd', 'rust_analyzer', 'pyright',
-    'tailwindcss', 'jdtls', 'ts_ls', 'cssls', 'lua_ls', 'arduino_language_server', 'texlab' }
+    'tailwindcss', 'jdtls', 'ts_ls', 'cssls', 'lua_ls', 'arduino_language_server', 'texlab', 'ocamllsp' }
 
 
 -- Ensure the servers above are installed

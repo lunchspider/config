@@ -29,3 +29,4 @@ direnv hook fish | source
 
 # opam configuration
 source /home/aman/.opam/opam-init/init.fish > /dev/null 2> /dev/null; or true
+export PATH="$HOME/.local/bin:$PATH"

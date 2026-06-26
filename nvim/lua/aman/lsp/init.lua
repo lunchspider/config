@@ -50,7 +50,7 @@ vim.lsp.enable({
 })
 -- Enable the following language servers
 -- Feel free to add/remove any LSPs that you want here. They will automatically be installed
-local servers = { 'clangd', 'rust_analyzer', 'pyright',
+local servers = { 'clangd', 'pyright',
     'tailwindcss', 'jdtls', 'ts_ls', 'cssls', 'lua_ls', 'arduino_language_server', 'texlab', 'ocamllsp' }
 
 
@@ -59,10 +59,6 @@ require('mason-lspconfig').setup {
     ensure_installed = servers
 }
 
-
-vim.lsp.config('*', {
-    capabilities = require('blink.cmp').get_lsp_capabilities()
-})
 
 for _, method in ipairs({ 'textDocument/diagnostic', 'workspace/diagnostic' }) do
     local default_diagnostic_handler = vim.lsp.handlers[method]

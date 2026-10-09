@@ -37,6 +37,17 @@ vim.api.nvim_create_autocmd('LspAttach', {
     end,
 })
 
+vim.lsp.config('rust_analyzer', {
+    settings = {
+        ['rust-analyzer'] = {
+            cargo = {  allFeatures = false, buildScripts = { enable = true } },
+            procMacro = { enable = true },
+            checkOnSave = true,
+            check = { command = 'clippy' },
+        },
+    },
+})
+
 
 vim.lsp.enable({
     "rust_analyzer",

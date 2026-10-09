@@ -1,6 +1,11 @@
 {
 "layer": "top",
 "position": "bottom",
+"output": "DP-1",
+"exclusive": false,
+"start_hidden": true,
+"on-sigusr1": "show",
+"on-sigusr2": "hide",
 "height": 10,
 "margin-bottom":0,
 "margin-top":0,

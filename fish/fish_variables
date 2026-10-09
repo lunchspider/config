@@ -1,5 +1,8 @@
 # This file contains fish universal variable definitions.
 # VERSION: 3.0
+SETUVAR --export CC:gcc\x2d15
+SETUVAR --export CXX:g\x2b\x2b\x2d15
 SETUVAR --export EDITOR:nvim
+SETUVAR --export --path LIBCLANG_PATH:/usr/lib/llvm20/lib
 SETUVAR __fish_initialized:4300
 SETUVAR fish_user_paths:/home/aman/\x2elocal/share/dfx/bin\x1e/home/aman/\x2ecargo/bin\x1e/home/aman/\x2efzf/bin\x1e/usr/bin
